@@ -86,11 +86,12 @@ RecoverAI uses a modern healthcare-inspired interface with:
 
 ## 🚀 Future Improvements
 
-- Real-time webcam rehabilitation feedback
+- AI-based rehabilitation performance analysis
 - Mobile application support
 - Advanced AI scoring
 - Cloud database integration
 - Automatic exercise correction
+- Enhanced patient progress tracking
 
 ---
 
