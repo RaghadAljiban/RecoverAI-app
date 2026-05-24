@@ -1,6 +1,6 @@
 # recoverai_streamlit.py
 # Streamlit UI for RecoverAI (Admin • Clinician • Patient)
-# Colors: Primary = #6b9ebd, Accent = #f18a81
+# Colors: Primary = #6b9ebd, Accent = #fa9b93
 
 import os
 import random
@@ -13,10 +13,11 @@ import mediapipe as mp
 from PIL import Image
 import numpy as np
 from db import init_db, create_user, get_user_for_login, get_conn
-# import tensorflow as tf
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 from inference.realtime_processor import RecoverAIVideoProcessor
 from inference.predictor import RecoverAIPredictor
+from sentence_transformers import SentenceTransformer, util
+from transformers import pipeline
 
 @st.cache_resource
 def get_recoverai_predictor():
@@ -2729,6 +2730,51 @@ def patient_contact_clinician():
         # Re-render with new messages
         st.rerun()
 
+
+@st.cache_resource
+def load_rag_models():
+    embedder = SentenceTransformer("all-MiniLM-L6-v2")
+    generator = pipeline(
+        "text-generation",
+        model="distilgpt2",
+        max_new_tokens=80
+    )
+    return embedder, generator
+
+
+def load_rag_file(file_path="recoverai_knowledge.txt"):
+    if not os.path.exists(file_path):
+        return []
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        text = f.read()
+
+    chunks = [p.strip() for p in text.split("\n\n") if p.strip()]
+    return chunks
+
+
+def rag_answer(question):
+    chunks = load_rag_file("recoverai_knowledge.txt")
+
+    if not chunks:
+        return "Knowledge file not found. Please add recoverai_knowledge.txt."
+
+    embedder, generator = load_rag_models()
+
+    question_embedding = embedder.encode(question, convert_to_tensor=True)
+    chunk_embeddings = embedder.encode(chunks, convert_to_tensor=True)
+
+    scores = util.cos_sim(question_embedding, chunk_embeddings)[0]
+    best_index = int(scores.argmax())
+    best_score = float(scores[best_index])
+
+    context = chunks[best_index]
+
+    if best_score < 0.25:
+        return "I could not find a clear answer. Please contact your clinician for more guidance."
+
+    return context
+
 def patient_chat():
     header_logo()
     back_arrow()
@@ -2742,7 +2788,8 @@ def patient_chat():
     # If user typed something
     if prompt:
         st.chat_message("user").write(prompt)
-        st.chat_message("ai").write("Thanks! I recommend 2 sets of 10 reps. Keep your posture aligned.")
+        answer = rag_answer(prompt)
+        st.chat_message("ai").write(answer)
 
     # -------------------------------
     # ✅ FLOATING MIC BUTTON (no upload)
@@ -2905,4 +2952,3 @@ elif st.session_state.page == "forgot_password":
     forgot_password_page()
 elif st.session_state.page == "notifications":
     notifications_page()
-
