@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RecoverAI</title>
+  <link rel="icon" href='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>'>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<header class="topbar" id="topbar" hidden>
+  <div class="brand">
+    <div class="brand-mark">AI</div>
+    <span class="brand-name">RecoverAI</span>
+  </div>
+  <ol class="progress" id="progress">
+    <li class="step" data-step="choose">
+      <span class="step-dot"></span>
+      <span class="step-label">Exercise</span>
+    </li>
+    <li class="step" data-step="upload">
+      <span class="step-dot"></span>
+      <span class="step-label">Upload</span>
+    </li>
+    <li class="step" data-step="analyzing">
+      <span class="step-dot"></span>
+      <span class="step-label">Analyze</span>
+    </li>
+    <li class="step" data-step="result">
+      <span class="step-dot"></span>
+      <span class="step-label">Result</span>
+    </li>
+  </ol>
+</header>
+
+<main class="stage-host">
+
+  <!-- ── Stage 1 · Welcome ───────────────────────────────────── -->
+  <section class="stage stage-welcome is-active" data-stage="welcome">
+    <div class="welcome">
+      <div class="brand-mark brand-mark--lg">AI</div>
+      <h1 class="welcome-title">RecoverAI</h1>
+      <p class="welcome-tagline">AI-Driven Tele-Rehabilitation Assistant.</p>
+      <p class="welcome-blurb">Upload your rehabilitation exercise video and receive intelligent AI feedback instantly.</p>
+      <button type="button" class="btn btn--primary btn--lg" data-action="goto-choose">
+        Start
+        <span class="btn-arrow">&rarr;</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ── Stage 2 · Choose exercise ───────────────────────────── -->
+  <section class="stage stage-choose" data-stage="choose" hidden>
+    <header class="stage-header">
+      <p class="eyebrow">Step 1 of 4</p>
+      <h2 class="stage-title">Which exercise did you record?</h2>
+      <p class="stage-subtitle">Pick the movement that matches your video.</p>
+    </header>
+
+    <div class="exercise-grid" id="exerciseGrid">
+      <!-- exercise cards injected by app.js -->
+    </div>
+
+    <footer class="stage-footer">
+      <button type="button" class="btn btn--ghost" data-action="back-to-welcome">
+        <span class="btn-arrow btn-arrow--left">&larr;</span> Back
+      </button>
+      <button type="button" class="btn btn--primary" id="chooseContinueBtn" disabled data-action="goto-upload">
+        Continue <span class="btn-arrow">&rarr;</span>
+      </button>
+    </footer>
+  </section>
+
+  <!-- ── Stage 3 · Upload ────────────────────────────────────── -->
+  <section class="stage stage-upload" data-stage="upload" hidden>
+    <header class="stage-header">
+      <p class="eyebrow">Step 2 of 4</p>
+      <h2 class="stage-title">Upload your video.</h2>
+      <p class="stage-subtitle">
+        Perform the <strong id="uploadExerciseName">your exercise</strong> in the video.
+        Full body in frame. Stable camera.
+      </p>
+    </header>
+
+    <div class="upload-row">
+      <div class="dropzone" id="dropzone">
+        <input type="file" id="fileInput" accept="video/*" hidden />
+
+        <div class="dropzone-empty" id="dropzoneEmpty">
+          <div class="dropzone-icon" aria-hidden="true">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+          </div>
+          <p class="dropzone-title">Drag a video here</p>
+          <p class="dropzone-or">or</p>
+          <button type="button" class="btn btn--secondary" data-action="open-picker">Choose a file</button>
+          <p class="dropzone-hint">MP4, MOV, AVI, WebM &middot; one rep, full body</p>
+        </div>
+
+        <div class="dropzone-preview" id="dropzonePreview" hidden>
+          <video id="previewVideo" controls muted playsinline></video>
+          <div class="preview-meta">
+            <span class="preview-name" id="previewName"></span>
+            <button type="button" class="btn btn--text" data-action="replace-file">Replace</button>
+          </div>
+        </div>
+
+        <div class="dropzone-error" id="dropzoneError" hidden>
+          <span class="dropzone-error-label">Could not load that file.</span>
+          <span class="dropzone-error-msg" id="dropzoneErrorMsg"></span>
+        </div>
+      </div>
+
+      <aside class="tips">
+        <p class="tips-title">Tips for a good clip</p>
+        <ul>
+          <li>Record a short exercise clip.</li>
+          <li>Full body visible.</li>
+          <li>Stable camera angle.</li>
+          <li>Avoid heavy occlusion.</li>
+          <li>5–15 seconds is plenty.</li>
+        </ul>
+      </aside>
+    </div>
+
+    <footer class="stage-footer">
+      <button type="button" class="btn btn--ghost" data-action="back-to-choose">
+        <span class="btn-arrow btn-arrow--left">&larr;</span> Back
+      </button>
+      <button type="button" class="btn btn--primary" id="analyzeBtn" disabled data-action="analyze">
+        Analyze <span class="btn-arrow">&rarr;</span>
+      </button>
+    </footer>
+  </section>
+
+  <!-- ── Stage 4 · Analyzing ─────────────────────────────────── -->
+  <section class="stage stage-analyzing" data-stage="analyzing" hidden>
+    <div class="analyzing">
+      <div class="pulse" aria-hidden="true">
+        <span class="pulse-ring"></span>
+        <span class="pulse-ring"></span>
+        <span class="pulse-core"></span>
+      </div>
+
+      <p class="eyebrow">Step 3 of 4</p>
+      <h2 class="analyzing-title" id="analyzingTitle">Extracting pose from your video&hellip;</h2>
+      <p class="analyzing-sub" id="analyzingSub">This usually takes a moment.</p>
+
+      <div class="analyzing-bar">
+        <div class="analyzing-bar-fill" id="analyzingFill"></div>
+      </div>
+      <p class="analyzing-pct" id="analyzingPct">0%</p>
+    </div>
+  </section>
+
+  <!-- ── Stage 5 · Result ────────────────────────────────────── -->
+  <section class="stage stage-result" data-stage="result" hidden>
+    <header class="stage-header">
+      <p class="eyebrow">Step 4 of 4</p>
+      <h2 class="stage-title">Here&rsquo;s how it looked.</h2>
+    </header>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-head">
+        <div class="result-icon" id="resultIcon" aria-hidden="true"></div>
+        <div class="result-text">
+          <p class="result-verdict" id="resultVerdict">CORRECT</p>
+          <p class="result-sub">
+            <span id="resultConfidence">87%</span> confident &middot;
+            <span id="resultExercise">Squats</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="confidence-meter">
+        <div class="confidence-meter-fill" id="confidenceFill"></div>
+      </div>
+
+      <video class="overlay-video" id="overlayVideo" controls autoplay loop muted playsinline></video>
+
+      <details class="result-details">
+        <summary>Show metrics</summary>
+        <table class="metrics" id="metricsTable">
+          <tbody></tbody>
+        </table>
+      </details>
+    </div>
+
+    <div class="result-error" id="resultError" hidden>
+      <span class="result-error-label">Could not analyze the clip</span>
+      <p class="result-error-msg" id="resultErrorMsg"></p>
+    </div>
+
+    <footer class="stage-footer">
+      <button type="button" class="btn btn--ghost" data-action="restart-choose">
+        Different exercise
+      </button>
+      <button type="button" class="btn btn--primary" data-action="restart-upload">
+        Try another rep <span class="btn-arrow">&rarr;</span>
+      </button>
+    </footer>
+  </section>
+
+</main>
+
+<script src="/static/app.js" defer></script>
+</body>
+</html>
