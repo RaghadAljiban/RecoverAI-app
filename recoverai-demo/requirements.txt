@@ -1,0 +1,11 @@
+numpy==1.26.4
+scipy==1.13.1
+mediapipe==0.10.14
+protobuf==4.25.3
+absl-py==2.1.0
+opencv-python>=4.8
+torch>=2.0
+imageio[pyav]>=2.31
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
