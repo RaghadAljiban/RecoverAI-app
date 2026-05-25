@@ -1,6 +1,6 @@
 # RecoverAI – AI-Powered Tele-Rehabilitation System
 
-RecoverAI is an AI-powered tele-rehabilitation platform designed to support patients during home-based recovery through intelligent exercise monitoring and rehabilitation management.
+RecoverAI is an AI-powered tele-rehabilitation platform designed to support patients during home-based recovery through intelligent rehabilitation monitoring, exercise assessment, and clinician-patient interaction.
 
 ---
 
@@ -8,21 +8,23 @@ RecoverAI is an AI-powered tele-rehabilitation platform designed to support pati
 
 ### 👨‍⚕️ Admin
 - Manage clinicians and patients
-- Monitor user activity logs
+- Monitor system activity
 - Send announcements
-- View system analytics
+- View platform analytics
 
 ### 🩺 Clinician
 - Monitor assigned patients
+- Review uploaded exercise videos
 - Generate rehabilitation reports
-- Track patient adherence
-- Chat with patients
+- Track patient adherence and progress
+- Communicate with patients
 
 ### 🧍 Patient
-- Perform rehabilitation exercises
-- Upload exercise videos
-- View progress tracking
-- Receive rehabilitation feedback
+- Access personalized rehabilitation plans
+- Upload exercise performance videos
+- View rehabilitation progress
+- Receive AI-assisted exercise feedback
+- Track completed sessions
 
 ---
 
@@ -30,8 +32,9 @@ RecoverAI is an AI-powered tele-rehabilitation platform designed to support pati
 
 - MediaPipe Pose Estimation
 - PyTorch Deep Learning Models
+- Human Pose Analysis
 - Exercise Recognition
-- Video Processing using OpenCV
+- Video Processing with OpenCV
 
 ### Supported Exercises
 - Arm Abduction
@@ -47,6 +50,7 @@ RecoverAI is an AI-powered tele-rehabilitation platform designed to support pati
 
 - Python
 - Streamlit
+- FastAPI
 - PyTorch
 - MediaPipe
 - OpenCV
@@ -58,40 +62,77 @@ RecoverAI is an AI-powered tele-rehabilitation platform designed to support pati
 ## 📂 Project Structure
 
 ```bash
-RecoverAI-app/
+RecoverAI/
 │
-├── recoverai_streamlit.py
-├── db.py
 ├── requirements.txt
-└── README.md
+│
+├── backend/
+│   ├── api.py
+│   ├── deps.py
+│   ├── main.py
+│   └── __init__.py
+│
+├── frontend/
+│   ├── app.js
+│   ├── index.html
+│   └── style.css
+│
+├── model/
+│   ├── best_conditioned_tcn_clean.pt
+│   ├── best_conditioned_tcn_clean77.pt
+│   └── best_exercise_recognition_tcn.pt
+│
+└── telerehab/
+    ├── checkpoint.py
+    ├── classifier.py
+    ├── config.py
+    ├── features.py
+    ├── model.py
+    ├── overlay.py
+    ├── pose.py
+    └── __init__.py
 ```
 
 ---
 
 ## 🎨 UI Design
 
-RecoverAI uses a modern healthcare-inspired interface with:
+RecoverAI uses a modern healthcare-inspired interface focused on usability and accessibility.
 
-- Soft responsive layout
-- Role-based dashboards
-- Analytics visualizations
-- Rehabilitation tracking system
+### Interface Highlights
+- Responsive healthcare-themed design
+- Rehabilitation monitoring dashboard
+- Exercise upload workflow
+- AI-assisted assessment interface
+- Progress analytics and visualizations
 
 ### Primary Colors
-
 - Primary: `#6b9ebd`
 - Accent: `#fa9b93`
 
 ---
 
+## 🎥 RecoverAI Demo
+
+The platform includes a rehabilitation demo interface for testing exercise uploads and AI-based exercise evaluation.
+
+### Demo Capabilities
+- Exercise upload interface
+- Guided rehabilitation workflow
+- Video-based exercise assessment
+- AI prediction and scoring display
+- Patient-friendly dashboard
+
+---
+
 ## 🚀 Future Improvements
 
-- AI-based rehabilitation performance analysis
-- Mobile application support
-- Advanced AI scoring
-- Cloud database integration
-- Automatic exercise correction
-- Enhanced patient progress tracking
+- Advanced rehabilitation performance analysis
+- Mobile application integration
+- Personalized rehabilitation recommendations
+- Cloud database deployment
+- Enhanced exercise quality assessment
+- Expanded rehabilitation exercise library
 
 ---
 
