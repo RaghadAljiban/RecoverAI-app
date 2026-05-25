@@ -1,0 +1,49 @@
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+MODEL_DIR = PROJECT_ROOT / "model"
+CHECKPOINT_PATH = MODEL_DIR / "best_conditioned_tcn_clean.pt"
+EXERCISE_RECOGNITION_CHECKPOINT_PATH = MODEL_DIR / "best_exercise_recognition_tcn.pt"
+
+TARGET_FRAMES = 32
+DEFAULT_FPS = 30.0
+FPS_MIN = 5.0
+FPS_MAX = 120.0
+
+GLOBAL_THRESHOLD = 0.5
+DROPOUT_DEFAULT = 0.5
+
+SUPPORTED_EXERCISES = {
+    "Arm Abduction": 1,
+    "Arm VW": 2,
+    "Push-ups": 3,
+    "Leg Abduction": 4,
+    "Leg Lunge": 5,
+    "Squats": 6,
+}
+
+EXERCISE_NAMES = {v: k for k, v in SUPPORTED_EXERCISES.items()}
+
+L_SHOULDER, R_SHOULDER = 11, 12
+L_ELBOW, R_ELBOW = 13, 14
+L_WRIST, R_WRIST = 15, 16
+L_HIP, R_HIP = 23, 24
+L_KNEE, R_KNEE = 25, 26
+L_ANKLE, R_ANKLE = 27, 28
+
+BONE_CONNECTIONS = [
+    (L_SHOULDER, L_ELBOW), (L_ELBOW, L_WRIST),
+    (R_SHOULDER, R_ELBOW), (R_ELBOW, R_WRIST),
+    (L_HIP, L_KNEE), (L_KNEE, L_ANKLE),
+    (R_HIP, R_KNEE), (R_KNEE, R_ANKLE),
+    (L_SHOULDER, R_SHOULDER),
+    (L_HIP, R_HIP),
+    (L_SHOULDER, L_HIP), (R_SHOULDER, R_HIP),
+]
+
+POSE_DETECTION_CONFIDENCE = 0.5
+POSE_TRACKING_CONFIDENCE = 0.5
+POSE_MODEL_COMPLEXITY = 1
+
+SERVER_HOST = "127.0.0.1"
+SERVER_PORT = 8000
