@@ -62,35 +62,42 @@ RecoverAI is an AI-powered tele-rehabilitation platform designed to support pati
 ## 📂 Project Structure
 
 ```bash
-RecoverAI/
+RecoverAI-app/
 │
+├── recoverai_streamlit.py
+├── db.py
 ├── requirements.txt
+└── README.md
 │
-├── backend/
-│   ├── api.py
-│   ├── deps.py
-│   ├── main.py
-│   └── __init__.py
-│
-├── frontend/
-│   ├── app.js
-│   ├── index.html
-│   └── style.css
-│
-├── model/
-│   ├── best_conditioned_tcn_clean.pt
-│   ├── best_conditioned_tcn_clean77.pt
-│   └── best_exercise_recognition_tcn.pt
-│
-└── telerehab/
-    ├── checkpoint.py
-    ├── classifier.py
-    ├── config.py
-    ├── features.py
-    ├── model.py
-    ├── overlay.py
-    ├── pose.py
-    └── __init__.py
+└── Recoverai-demo/
+    │
+    ├── requirements.txt
+    │
+    ├── backend/
+    │   ├── api.py
+    │   ├── deps.py
+    │   ├── main.py
+    │   └── __init__.py
+    │
+    ├── frontend/
+    │   ├── app.js
+    │   ├── index.html
+    │   └── style.css
+    │
+    ├── model/
+    │   ├── best_conditioned_tcn_clean.pt
+    │   ├── best_conditioned_tcn_clean77.pt
+    │   └── best_exercise_recognition_tcn.pt
+    │
+    └── telerehab/
+        ├── checkpoint.py
+        ├── classifier.py
+        ├── config.py
+        ├── features.py
+        ├── model.py
+        ├── overlay.py
+        ├── pose.py
+        └── __init__.py
 ```
 
 ---
